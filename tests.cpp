@@ -1,7 +1,7 @@
 #include <functional>
 #include <gtest/gtest.h>
-#include "../matrix.h"
-#include "../nn.h"
+#include "matrix.h"
+#include "nn.h"
 #include <stdexcept>
 
 TEST(TEST_MATRIX, TEST_CONSTRUCTOR) {
@@ -147,10 +147,14 @@ TEST(TEST_NN, TEST_DSIGMOID) {
 }
 
 TEST(TEST_NN, TEST_MSE) {
-	EXPECT_EQ(NeuralNet::MSE(1, {10}, {-10}), 400);
-	EXPECT_EQ(NeuralNet::MSE(3, {1, 2, 3}, {1, 2, 3}), 0);
-	EXPECT_THROW(NeuralNet::MSE(2, {1, 2}, {1, 2, 3}), std::invalid_argument);
-	EXPECT_THROW(NeuralNet::MSE(0, {1, 2}, {1, 2}),    std::invalid_argument);
+	Matrix2D pred({{1, 2}, {3, 4}});
+    Matrix2D actual({{2, 4}, {6, 8}});
+
+	EXPECT_NEAR(NeuralNet::MSE(pred, actual), 7.5, 1e-9);
+	EXPECT_NEAR(NeuralNet::MSE(pred, pred), 0.0, 1e-9);
+
+	Matrix2D wrong_size({{1.0, 2.0}});
+    EXPECT_THROW(NeuralNet::MSE(pred, wrong_size), std::invalid_argument);
 }
 
 TEST(TEST_NN, TEST_CEL) {
@@ -162,12 +166,11 @@ TEST(TEST_NN, TEST_CEL) {
 }
 
 TEST(TEST_NN, TEST_DMSE) {
-	EXPECT_EQ(NeuralNet::DMSE(1, {10}, {-10}), std::vector<double>{40});
-	EXPECT_EQ(NeuralNet::DMSE(3, {1, 2, 3}, {1, 2, 3}), std::vector<double>({0, 0, 0}));
-	EXPECT_EQ(NeuralNet::DMSE(2, {2, 4}, {1, 2}), std::vector<double>({1, 2}));
+	Matrix2D pred({{2.0, 4.0}});
+    Matrix2D actual({{1.0, 2.0}});
 
-	EXPECT_THROW(NeuralNet::MSE(2, {1, 2}, {1, 2, 3}), std::invalid_argument);
-	EXPECT_THROW(NeuralNet::MSE(0, {1, 2}, {1, 2}),    std::invalid_argument);
+	Matrix2D expected({{1.0, 2.0}});
+    EXPECT_EQ(NeuralNet::DMSE(pred, actual), expected);
 }
 
 TEST(TEST_NN, TEST_DCEL) {
