@@ -111,11 +111,6 @@ void Sequential::train(const Matrix2D& inputs, const Matrix2D& targets, const in
 	}
 }
 
-NeuralNet::NeuralNet(const int inputAmt, const int hiddenAmt, const int outputAmt) :
-    m_inputAmt{ inputAmt  },
-    m_hiddenAmt{ hiddenAmt },
-    m_outputAmt{ outputAmt } {}
-
 double NeuralNet::ReLU(const double x) { return std::max(0.0, x); }
 double NeuralNet::Tanh(const double x) { return std::tanh(x); }
 double NeuralNet::Sigmoid(const double x) { return 1 / (1 + std::pow(std::numbers::e, -x)); }

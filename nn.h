@@ -56,15 +56,7 @@ public:
 };
 
 class NeuralNet {
-    // Parameters are passed to constructor but currently unused
-    // Keeping them for future API compatibility
-    [[maybe_unused]] int m_inputAmt;
-    [[maybe_unused]] int m_hiddenAmt;
-    [[maybe_unused]] int m_outputAmt;
-
 public:
-    NeuralNet(int inputAmt, int hiddenAmt, int outputAmt);
-
     static double ReLU(double x);
     static double Tanh(double x);
     static double Sigmoid(double x);
