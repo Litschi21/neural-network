@@ -11,13 +11,13 @@ public:
 };
 
 class ActivationLayer: public Layer {
-    std::function<Matrix2D(Matrix2D)> func;
+    std::function<Matrix2D(Matrix2D&)> func;
 	std::function<double(double)> deriv;
 	Matrix2D m_lastInput{};
 	std::string m_type;
 
 public:
-    ActivationLayer(std::function<Matrix2D(Matrix2D)> f, std::function<double(double)> d);
+    ActivationLayer(std::function<Matrix2D(Matrix2D&)> f, std::function<double(double)> d);
 
     Matrix2D forward(const Matrix2D& input) override;
 	Matrix2D backward(const Matrix2D& outputGradient, double lr) override;
@@ -63,6 +63,10 @@ public:
     static double ReLU(double x);
     static double Tanh(double x);
 	static double Sigmoid(double x);
+
+	static Matrix2D ApplyReLU(Matrix2D& mat);
+	static Matrix2D ApplyTanh(Matrix2D& mat);
+	static Matrix2D ApplySigmoid(Matrix2D& mat);
 
 	static double DReLU(double x);
 	static double DTanh(double x);
