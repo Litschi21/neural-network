@@ -42,7 +42,7 @@ int main() {
     Sequential model(
         LinearLayer(2, 4), 
         ActivationLayer(
-            [](Matrix2D mat) { mat.apply(NeuralNet::Tanh); return mat; }, 
+            NeuralNet::ApplyTanh, 
             NeuralNet::DTanh
         ),
         LinearLayer(4, 1)
