@@ -19,18 +19,20 @@ void Matrix2D::addRow(const std::vector<double>& vec) { m_matrix.emplace_back(ve
 double Matrix2D::dot(const std::vector<double>& vec1, const std::vector<double>& vec2) {
     if (vec1.size() != vec2.size()) throw std::invalid_argument("Vectors have different size.");
 
-        double dotProd{};
-        for (size_t i{}; i < vec1.size(); ++i) {
-            dotProd += vec1[i] * vec2[i];
-        }
+	double dotProd{};
+	for (size_t i{}; i < vec1.size(); ++i) {
+		dotProd += vec1[i] * vec2[i];
+	}
 
-        return dotProd;
-    }
+	return dotProd;
+}
 
 std::vector<double> Matrix2D::matvec(const std::vector<double>& vec) const {
     if (m_matrix.empty() || m_matrix[0].size() != vec.size()) throw std::invalid_argument("Matrix & Vector have different sizes.");
 
     std::vector<double> output{};
+	output.reserve(m_matrix.size());
+
     for (size_t row{}; row < m_matrix.size(); ++row) {
         output.emplace_back(dot(m_matrix[row], vec));
     }
@@ -46,6 +48,8 @@ Matrix2D Matrix2D::transpose(const Matrix2D& mat) {
 	size_t cols{ data[0].size() };
 
 	Matrix2D transposed{};
+	transposed.m_matrix.reserve(cols * rows);
+
 	for (size_t col{}; col < cols; ++col) {
 		std::vector<double> newRow;
 		newRow.reserve(rows);
@@ -144,8 +148,11 @@ Matrix2D Matrix2D::operator-(const Matrix2D& mat) const {
     if (m_matrix.size() != mat.m_matrix.size()) throw std::invalid_argument("Matrices have different size.");
 
 	Matrix2D newMat;
+	newMat.m_matrix.reserve(m_matrix.size());
 	for (size_t row{}; row < m_matrix.size(); ++row) {
 		std::vector<double> subRow{};
+		subRow.reserve(m_matrix[row].size());
+
 		for (size_t i{}; i < m_matrix[row].size(); ++i) {
 			subRow.emplace_back(m_matrix[row][i] - mat.m_matrix[row][i]);
 		}
