@@ -28,7 +28,7 @@ double Matrix2D::dot(const std::vector<double>& vec1, const std::vector<double>&
     }
 
 std::vector<double> Matrix2D::matvec(const std::vector<double>& vec) const {
-    if (m_matrix.size() != vec.size()) throw std::invalid_argument("Matrix & Vector have different sizes.");
+    if (m_matrix.empty() || m_matrix[0].size() != vec.size()) throw std::invalid_argument("Matrix & Vector have different sizes.");
 
     std::vector<double> output{};
     for (size_t row{}; row < m_matrix.size(); ++row) {
@@ -89,7 +89,7 @@ Matrix2D Matrix2D::operator*(const Matrix2D& mat) const {
 	if (c1 != r2) { throw std::invalid_argument("Matrix A's column amount not equal to Matrix B's row amount. Unable to multiply."); }
 	
 	Matrix2D res{};
-	res.m_matrix.reserve(c1 * r2);
+	res.m_matrix.reserve(r1);
 	for (size_t i{}; i < r1; ++i) {
 		std::vector<double> row{};
 		row.reserve(c2);

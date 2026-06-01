@@ -187,7 +187,7 @@ double NeuralNet::CEL(const size_t M, const std::vector<double>& pred, const std
 	
 	double loss{};
 	for (size_t i{}; i < M; ++i) {
-		loss += -(pred[i] * std::log(actual[i] + 1e-15));
+		loss += -(actual[i] * std::log(pred[i] + 1e-15));
 	}
 
 	return loss;

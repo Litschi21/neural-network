@@ -104,8 +104,8 @@ TEST(TEST_LL, TEST_CONSTRUCTOR) {
     }
 
     Matrix2D weights{ ll.getWeights() };
-    for (size_t row; row < weights.getMat().size(); ++row) {
-        for (size_t i; i < weights.getMat().at(row).size(); ++i) {
+    for (size_t row{}; row < weights.getMat().size(); ++row) {
+        for (size_t i{}; i < weights.getMat().at(row).size(); ++i) {
             const double item{ weights.getMat().at(row).at(i) };
             EXPECT_TRUE(item >= 0.0 && item <= 1.0); 
         }
