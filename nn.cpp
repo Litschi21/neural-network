@@ -31,15 +31,16 @@ Matrix2D ActivationLayer::backward(const Matrix2D& outputGradient, [[maybe_unuse
 	return dZ;
 }
 
-LinearLayer::LinearLayer(const int inputSize, const int outputSize) {
-        for (int i{}; i < outputSize; ++i) {
+LinearLayer::LinearLayer(const int n_in, const int n_out) {
+        for (int i{}; i < n_out; ++i) {
             m_biases.emplace_back(0);
         }
 
-        for (int i{}; i < outputSize; ++i) {
+        for (int i{}; i < n_out; ++i) {
             std::vector<double> row{};
-            for (int j{}; j < inputSize; ++j) {
-                row.emplace_back(randD(0, 1));
+            for (int j{}; j < n_in; ++j) {
+				double lim{ std::sqrt(6 / (n_in + n_out)) };
+                row.emplace_back(randD(-lim, lim));
             }
 
             m_weights.addRow(row);
@@ -59,10 +60,9 @@ Matrix2D LinearLayer::forward(const Matrix2D& input) {
         for (size_t col{}; col < mat[row].size(); ++col) {
             mat[row][col] += m_biases[row];
         }
-
-        Z.setMat(mat);
     }
 
+	Z.setMat(mat);
     return Matrix2D::transpose(Z);
 }
 
@@ -70,10 +70,10 @@ Matrix2D LinearLayer::backward(const Matrix2D& outputGradient, const double lr) 
 	Matrix2D tGrad { Matrix2D::transpose(outputGradient) };
 	Matrix2D tInput{ Matrix2D::transpose(m_lastInput) };
 
-	Matrix2D dW{ tGrad * Matrix2D::transpose(tInput) }; // Gradient of Weights
+	Matrix2D dW{ tGrad * Matrix2D::transpose(tInput) };      // Gradient of Weights
 	Matrix2D dX{ Matrix2D::transpose(m_weights) * tGrad };   // Gradient of Inputs
 
-	std::vector<double> db(m_biases.size(), 0.0);  // Gradient of Biases
+	std::vector<double> db(m_biases.size(), 0.0);            // Gradient of Biases
 	auto ogMat{ tGrad.getMat() };
 	for (size_t i{}; i < ogMat.size(); ++i) {
 		for (size_t j{}; j < ogMat[i].size(); ++j) {
@@ -89,7 +89,7 @@ Matrix2D LinearLayer::backward(const Matrix2D& outputGradient, const double lr) 
 	return Matrix2D::transpose(dX);
 }
 
-void Sequential::addLayer(std::unique_ptr<Layer> layer)     { m_layers.emplace_back(std::move(layer)); }
+void Sequential::addLayer(std::unique_ptr<Layer> layer) { m_layers.emplace_back(std::move(layer)); }
 void Sequential::addLayer(const std::function<Matrix2D(Matrix2D)>& func, const std::function<double(double)>& deriv) {
 	m_layers.emplace_back(std::make_unique<ActivationLayer>(func, deriv));
 }
