@@ -102,7 +102,7 @@ void Sequential::train(const Matrix2D& inputs, const Matrix2D& targets, const in
 		double loss{ NeuralNet::MSE(curr, targets) };
 		Matrix2D grad{ NeuralNet::DMSE(curr, targets) };
 		if (e <= 5 || e % 10 == 0) {
-			std::cout << "Epoch #" << e << " - loss = " << loss << '\n';
+			std::cout << "Epoch #" << e << " - loss=" << loss << " | " << (1 - loss) * 100 << "%" << '\n';
 		}
 
 		for (size_t i{ m_layers.size() }; i > 0; --i) {
