@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <cmath>
 #include <stdexcept>
 
 #include "matrix.h"
@@ -15,7 +16,9 @@ TEST(TEST_LL, TEST_CONSTRUCTOR) {
   for (size_t row{}; row < weights.getMat().size(); ++row) {
     for (size_t i{}; i < weights.getMat().at(row).size(); ++i) {
       const double item{weights.getMat().at(row).at(i)};
-      EXPECT_TRUE(item >= 0.0 && item <= 1.0);
+      
+      EXPECT_GE(item, -std::sqrt(3.0));
+      EXPECT_LT(item, std::sqrt(3.0));
     }
   }
 }
@@ -70,7 +73,7 @@ TEST(TEST_NN, TEST_CEL) {
   EXPECT_THROW(NeuralNet::CEL(2, {1}, {0.9}), std::invalid_argument);
   EXPECT_THROW(NeuralNet::CEL(1, {1, 1}, {0.9, 0.87}), std::invalid_argument);
   EXPECT_NEAR(NeuralNet::CEL(2, {1, 1}, {1, 1}), 0, 1e-9);
-  EXPECT_TRUE(NeuralNet::CEL(2, {1, 1}, {0, 0}) != 0);
+  EXPECT_TRUE(NeuralNet::CEL(2, {0, 0}, {1, 1}) != 0);
 }
 
 TEST(TEST_NN, TEST_DMSE) {

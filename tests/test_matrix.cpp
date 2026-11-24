@@ -35,7 +35,7 @@ TEST(TEST_MATRIX, TEST_MATVEC) {
   EXPECT_THROW(mat.matvec(vec), std::invalid_argument);
 
   mat = {}, vec = {}, ans = {};
-  EXPECT_EQ(mat.matvec(vec), ans);
+  EXPECT_THROW(mat.matvec(vec), std::invalid_argument);
 }
 
 TEST(TEST_MATRIX, TEST_TRANSPOSE) {

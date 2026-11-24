@@ -47,7 +47,7 @@ LinearLayer::LinearLayer(const int n_in, const int n_out) {
   for (int i{}; i < n_out; ++i) {
     std::vector<double> row{};
     for (int j{}; j < n_in; ++j) {
-      double lim{std::sqrt(6 / (n_in + n_out))};
+      double lim{std::sqrt(6.0 / (n_in + n_out))};
       row.emplace_back(randD(-lim, lim));
     }
 
@@ -198,11 +198,9 @@ double NeuralNet::CEL(const size_t M, const std::vector<double>& pred,
                       const std::vector<double>& actual) {
   if (pred.size() != actual.size()) {
     throw std::invalid_argument("Prediction and Actual vectors not same size.");
-  }
-  if (pred.size() != M) {
+  } if (pred.size() != M) {
     throw std::invalid_argument("Class amount must match length of vectors.");
-  }
-  if (M < 2) {
+  } if (M < 2) {
     throw std::invalid_argument("Must have at least two classes.");
   }
 
@@ -218,11 +216,9 @@ std::vector<double> NeuralNet::DCEL(const size_t M, const std::vector<double>& p
                                     const std::vector<double>& actual) {
   if (pred.size() != actual.size()) {
     throw std::invalid_argument("Prediction and Actual vectors not same size.");
-  }
-  if (pred.size() != M) {
+  } if (pred.size() != M) {
     throw std::invalid_argument("Class amount must match length of vectors.");
-  }
-  if (M < 2) {
+  } if (M < 2) {
     throw std::invalid_argument("Must have at least two classes.");
   }
 
