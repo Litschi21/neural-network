@@ -16,14 +16,14 @@ A lightweight, user-friendly Neural Network written from scratch without externa
 You can quickly compile and run the main application by using the included `Makefile`.
 ```bash
 make
-./main.exe
+./main
 ```
 
 ## Running the Tests
 The same applies for compiling and running the tests.
 ```bash
 make tests
-./tests.exe
+./tests
 ```
 
 ## Usage
@@ -39,6 +39,10 @@ int main() {
     outputs.addRow({0.2});
 
     // Define Model Architecture
+    // This model accepts 2 inputs (first parameter of LinearLayer)
+    // Then it runs it through a hidden layer with 4 nodes, then through an
+    // activation layer using Tanh and finally through another hidden layer with 4 nodes
+    // finally it pipes into the output, which is 1 number
     Sequential model(
         LinearLayer(2, 4), 
         ActivationLayer(
